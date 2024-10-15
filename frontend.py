@@ -11,9 +11,11 @@ st.sidebar.header("Add a New Book")
 name = st.sidebar.text_input("Book Name")
 author = st.sidebar.text_input("Author Name")
 status = st.sidebar.selectbox("Status", ["Not Read", "Reading", "Read"])
+platform = st.sidebar.selectbox("Platform", ["Physical", "Digital"])
+
 
 if st.sidebar.button("Add Book"):
-    data = {"name": name, "author": author, "status": status}
+    data = {"name": name, "author": author, "status": status, "platform": platform}
     response = requests.post(f"{backend_url}/add_book", json=data)
     if response.status_code == 200:
         st.sidebar.success("Book added successfully!")
@@ -26,11 +28,11 @@ if st.sidebar.button("View All Books"):
     books = response.json()["books"]
     st.write("All Books in the Library:")
     for book in books:
-        st.write(f"**Title:** {book[1]}, **Author:** {book[2]}, **Status:** {book[3]}")
+        st.write(f"**Title:** {book[1]}, **Author:** {book[2]}, **Status:** {book[3]}, **Platform:** {book[4]}")
 
 # Search books
 st.sidebar.header("Search Books")
-search_type = st.sidebar.selectbox("Search by", ["name", "author", "status"])
+search_type = st.sidebar.selectbox("Search by", ["name", "author", "status","platform"])
 keyword = st.sidebar.text_input("Enter keyword")
 
 if st.sidebar.button("Search"):
@@ -40,6 +42,6 @@ if st.sidebar.button("Search"):
     if books:
         st.write("Search Results:")
         for book in books:
-            st.write(f"**Title:** {book[1]}, **Author:** {book[2]}, **Status:** {book[3]}")
+            st.write(f"**Title:** {book[1]}, **Author:** {book[2]}, **Status:** {book[3]}, **Platform:** {book[4]}")
     else:
         st.warning("No matching books found.")

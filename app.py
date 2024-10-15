@@ -16,7 +16,8 @@ def new_entry():
     name = data['name']
     author = data['author']
     status = data['status']
-    result = add_book(name, author, status)  
+    platform = data['platform']
+    result = add_book(name, author, status,platform)  
     return result 
         
 

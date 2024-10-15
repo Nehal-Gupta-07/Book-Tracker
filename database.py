@@ -3,25 +3,25 @@ import sqlite3
 def init_db():
     conn = sqlite3.connect('tracker.db')
     c = conn.cursor()
-    c.execute("CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY, name TEXT, author TEXT, status TEXT)")
+    c.execute("CREATE TABLE IF NOT EXISTS books (id INTEGER PRIMARY KEY, name TEXT, author TEXT, status TEXT, platform TEXT)")
     conn.commit()
     conn.close()
 
-def add_book(name,author,status):
+def add_book(name,author,status,platform):
     try:
         conn = sqlite3.connect('tracker.db')
         c = conn.cursor()
 
         # Check if the book already exists
-        c.execute("SELECT * FROM books WHERE name = ? AND author = ?", (name, author))
+        c.execute("SELECT * FROM books WHERE name = ? AND author = ? AND platform = ?", (name, author,platform))
         existing_book = c.fetchone()
 
         if existing_book:
-            print(f"Duplicate book found: {name} by {author}")
+            print(f"Duplicate book found: {name} by {author} in {platform} mode")
             return {"error": "Duplicate book entry."}  
 
        
-        c.execute("INSERT INTO books (name, author, status) VALUES (?, ?, ?)", (name, author, status))
+        c.execute("INSERT INTO books (name, author, status, platform) VALUES (?, ?, ?, ?)", (name, author, status,platform))
         conn.commit()
         return {"message": "Book added successfully!"}  
     except sqlite3.Error as e:
