@@ -45,5 +45,26 @@ def search_books(search_type, keyword):
     conn.close()
     return books
 
+def  delete_book(name, author, platform):
+    try:
+        conn = sqlite3.connect('tracker.db')
+        c =  conn.cursor()
+        c.execute("SELECT * FROM books WHERE name = ? AND author = ? AND platform = ?",(name,author,platform))
+        existing_book = c.fetchone()
+        if existing_book:
+            c.execute("DELETE FROM books WHERE name = ? AND author = ? AND platform = ?", (name,author,platform))
+            conn.commit()
+            return  {"message": "Book deleted successfully!"}  
+        else:
+            return {"error": "Book not found."}
+    except sqlite3.Error as e:
+        print(f"An error occurred while deleting the book: {e}")
+        return {"error": str(e)}
+    finally:
+        conn.close()
+
+
+
+
 
 
