@@ -22,7 +22,7 @@ def new_entry():
 @app.route('/view',methods=['GET'])
 def view_all():
     books = get_all_books()
-    return {'books':books}
+    return books
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -30,7 +30,7 @@ def search():
     search_type = data['search_type']
     keyword = data['keyword']
     books = search_books(search_type,keyword)
-    return {'books':books}
+    return books
 
 @app.route("/delete",methods=['DELETE'])
 def delete():

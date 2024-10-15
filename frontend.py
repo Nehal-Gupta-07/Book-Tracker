@@ -24,7 +24,7 @@ if st.sidebar.button("Add Book"):
 # View all books
 if st.sidebar.button("View All Books"):
     response = requests.get(f"{backend_url}/view")
-    books = response.json()["books"]
+    books = response.json()
     st.write("All Books in the Library:")
     for book in books:
         st.write(f"**Title:** {book[1]}, **Author:** {book[2]}, **Platform:** {book[3]}")
@@ -37,7 +37,7 @@ keyword = st.sidebar.text_input("Enter keyword")
 if st.sidebar.button("Search"):
     data = {"search_type": search_type, "keyword": keyword}
     response = requests.get(f"{backend_url}/search", json=data)
-    books = response.json()["books"]
+    books = response.json()
     if books:
         st.write("Search Results:")
         for book in books:
@@ -49,7 +49,7 @@ if st.sidebar.button("Search"):
             with col1:
                 st.write(f"**Title:** {name}, **Author:** {author}, **Platform:** {platform}")
             with col2:        
-                delete_button = st.button("Delete",key=book_id)
+                delete_button = st.button("Delete")
                 if delete_button:
                     data = {"name": name,  "author": author, "platform": platform}
                     response = requests.delete(f"{backend_url}/delete", json=data)
@@ -61,11 +61,5 @@ if st.sidebar.button("Search"):
                             
     else:
         st.warning("No matching books found.")
-
-
-     
-     
-                            
-
 
                     
